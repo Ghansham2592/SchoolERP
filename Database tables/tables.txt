@@ -1,0 +1,48 @@
+//Creation of emp leave allotment
+
+create table Emp_Leave_allotment
+(
+Emp_id number primary key,
+Leave_id number,
+Leave_Balance number,
+Total_Leaves number);
+
+insert into Emp_Leave_allotment values(& Emp_id,& Leave_id,& Leave_Balance,& Total_Leaves);
+
+SQL> select * from emp_leave_allotment;
+
+    EMP_ID   LEAVE_ID LEAVE_BALANCE TOTAL_LEAVES
+---------- ---------- ------------- ------------
+       100          1             5           10
+       101          2             7           10
+       102          1            -1           10
+       103          3            -4           10
+       104          2             3           10
+       105          1             1           10
+       106          3             0           10
+       107          3            -2           10
+       108          1            -3           10
+       109          2             2           10
+
+10 rows selected.
+
+//Creation of emp salary details
+
+create table emp_salary_details
+(
+emp_id number(10),
+gross_sal number(10),
+Net_sal number(10),
+pf_deduct_amt number(10),
+tax_deduct_amt number(10),
+extra_deduct_amt Number(10),
+sal_date date,
+ );
+
+//Creation of log table
+
+create table log
+(
+userID varchar2(10),
+opday date,
+operation char(1));

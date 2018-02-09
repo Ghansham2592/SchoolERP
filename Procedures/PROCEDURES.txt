@@ -1,0 +1,36 @@
+create or replace procedure Calculate( emp_id IN number,basic IN number)
+as
+a number;
+b number;
+c number;
+d number;
+e number;
+p_value number;
+begin
+p_value:= extra_deductions(emp_id,basic);
+select HRA( p_value) into a from dual;
+select TA( p_value) into b from dual;
+select DA( p_value) into c from dual;
+select PF( p_value) into d from dual;
+select TAX( p_value) into e from dual;
+END;
+/
+
+
+
+create or replace procedure add1
+(Emp_id IN emp_salary_details.Emp_id%type,
+Gross_sal IN Emp_salary_details.gross_sal%type,
+net_sal IN Emp_salary_details.net_sal%type,
+pf_deduct_amt IN Emp_salary_details.pf_deduct_amt%type,
+tax_deduct_amt IN Emp_salary_details.tax_deduct_amt%type,
+extra_deduct_amt IN Emp_salary_details.extra_deduct_amt%type,
+sal_date IN Emp_salary_details.sal_date%type)
+is
+begin
+insert into Emp_salary_Details values
+(Emp_id,Gross_sal,net_sal,pf_deduct_amt,tax_deduct_amt,extra_deduct_amt,sal_date);
+end;
+
+
+SQL> execute add1(101,20000,10000,500,500,1000,sysdate);

@@ -1,0 +1,92 @@
+create or replace function extra_deductions(e number,basic number,n number)
+return number
+as
+X number;
+begin
+select leave_balance into X from emp_leave_allotment
+where emp_id= e;
+if X >= 0 then
+return (basic + 0);
+elsif X < 0 then
+return (basic + (X * gross(basic)/n));
+end if;
+end;
+/
+
+create or replace function Gross(p number)
+return number
+as
+begin
+return (p+(p * 0.40)+(p * 0.15)+(p * 0.10));
+end;
+/
+
+
+create or replace function HRA(p number)
+return number
+as
+begin
+return (p * 0.40);
+end;
+/
+
+create or replace function TA(p number)
+return number
+as
+begin
+return (p * 0.15);
+end;
+/
+
+create or replace function DA(p number)
+return number
+as
+begin
+return (p * 0.10);
+end;
+/
+
+create or replace function PF(p number)
+return number
+as
+X number;
+begin
+X:= Gross(p);
+return (X * 0.125);
+end;
+/
+
+create or replace function TAX(p number)
+return number
+as
+X number(6);
+Y number(10);
+begin
+X:= p+ 0.40 * p+ 0.15 * p + 0.10 * p;
+Y:=X * 12;
+if Y<=200000 then
+return 0* p;
+elsif Y between 200000 and 300000 then
+return 0.10* p;
+elsif Y between 300000 and 500000 then
+return 0.20* p;
+elsif Y>=500000 then
+return 0.30* p;
+end if;
+end;
+/
+
+
+
+create or replace trigger t1
+after delete or update on emp_salary_details
+Begin
+if deleting then
+insert into log values(user,sysdate,'D');
+elsif updating then
+insert into log values(user,sysdate,'U');
+end if;
+end;
+/
+
+
